@@ -152,7 +152,7 @@ Wb.prototype.style=function(a,b){
         return this;
     }
 }
-Wb.prototype.css=bbw.prototype.style;/* like jq */
+Wb.prototype.css=Wb.prototype.style;/* like jq */
 /* select like  linQ */
 /* selct from 1 */
 Wb.prototype.selectIndex=function(i){
