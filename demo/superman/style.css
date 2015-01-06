@@ -1,0 +1,13 @@
+*{
+  margin:0px;
+  padding:0px;
+}
+#debug{
+    font-size: 30px;
+}
+#canvas_box{
+    background: #000;
+    width: 320px;
+    height: 320px;
+    cursor: pointer;
+}
