@@ -12,6 +12,7 @@ _.set_looping=function(x){
 _.setAniTime=function(t){
     _.anitime=t;
 }
+_.loop=false;
 _.lastT=0;
 _.animate=function() {
     var t=new Date().getTime();
@@ -58,6 +59,7 @@ Engine.prototype.initCanvas=function(id,w,h){
     canvas.top = 0;
     canvas.left = 0;
     _.c = canvas.getContext('2d');
+    canvas_box.innerHTML="";
     canvas_box.appendChild(canvas);
     //
 }
@@ -66,6 +68,13 @@ Engine.prototype.setGameLoop=function(x){
 }
 var engine=new Engine();
 _.engine=engine;
+
+
+_.init=function(){
+    var engine=new Engine();
+    _.engine=engine;
+}
+
 /* Screen */
 var Screen=function(){
     this.objs=new Array();
@@ -84,45 +93,48 @@ _.life_timer=0;
 var Render=function(){
     this.animate=function(){
         var loop=function(player,objs,fps) {
-            var t=new Date().getTime();
-            if(t-fps> _.lastT){
-                _.lastT=t;
-                _.timer++;
-                _.life_timer++;
-                if(player.life==-1){
-                    player.onDie();
-                    return false;
-                }
-                _.clear_canvas();
-
-                player.update();
-
-                for(i=0;i<objs.length;i++){
-                    objs[i].update();
-                    if(objs[i].life==0){
-                        objs[i].onDie();
-                        objs.splice(i,1);
+            if(_.loop){
+                var t=new Date().getTime();
+                if(t-fps> _.lastT){
+                    _.lastT=t;
+                    _.timer++;
+                    _.life_timer++;
+                    if(player.life==-1){
+                        player.onDie();
+                        player.onOver();
+                        return false;
                     }
-                    if (Math.abs(player.x - objs[i].x)<player.w/1.5 && Math.abs(player.y - objs[i].y)<player.h/1.5) {
-                        /* 如果是敌人 */
-                        if(objs[i].type=="enemy"){
-                            player.life--;
-                            objs[i].onDie();
-                            objs.splice(i,1);
-                        }else if(objs[i].type=="life"){
-                            /* 如果能加生命值 */
-                            player.life++;
+                    _.clear_canvas();
+
+                    player.update();
+
+                    for(i=0;i<objs.length;i++){
+                        objs[i].update();
+                        if(objs[i].life==0){
                             objs[i].onDie();
                             objs.splice(i,1);
                         }
-                        /* 如果是障碍物 */
-                        /* 如果是炸弹：清除全部敌人 */
+                        if (Math.abs(player.x - objs[i].x)<player.w/1.5 && Math.abs(player.y - objs[i].y)<player.h/1.5) {
+                            /* 如果是敌人 */
+                            if(objs[i].type=="enemy"){
+                                player.life--;
+                                objs[i].onDie();
+                                objs.splice(i,1);
+                            }else if(objs[i].type=="life"){
+                                /* 如果能加生命值 */
+                                player.life++;
+                                objs[i].onDie();
+                                objs.splice(i,1);
+                            }
+                            /* 如果是障碍物 */
+                            /* 如果是炸弹：清除全部敌人 */
 
+                        }
+                        //
+                        //console.log(objs[i])
                     }
-                    //
-                    //console.log(objs[i])
+                    _.gameLoop();
                 }
-                _.gameLoop();
             }
             requestAnimationFrame(function(){
                 loop(player,objs,fps);
@@ -172,33 +184,43 @@ Text.prototype.setUpdate=function(x){
 }
 /* Sprite */
 var Sprite=function(name,x,y,w,h,src){
+    this.timer=0;
     this.name=name;
     this.live=1;
     this.life=1;
+    this.timerfps=20;
     this.type="enemy";
-    var img=new Image();
+    this.data=new Array();
     this.x=x;
     this.y=y;
     this.w=w;
     this.h=h;
+    this.imgs=new Array();
+    var img=new Image();
     if(src==undefined){
-        this.img=null;
         return false;
     }
+    this.img_index=0;//渲染的img
     img.src=src;
     function a(x,img,w,h){
         img.onload=function(){
-            _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
-            _.c.drawImage(this,0,0,w,h);
+            //_.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
+            //_.c.drawImage(this,0,0,w,h);
             //var data=_.c.getImageData(0,0,this.width,this.height).data;
-            var data=_.c.getImageData(0,0,w,h).data;
-            _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
-            console.log(data);
-            x.data=data;
+            //var data=_.c.getImageData(0,0,w,h).data;
+           // _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
+            //console.log(data);
+            //x.data.push(data);
         }
     }
-    a(this,img,w,h);
-    this.img=img;
+    //a(this,img,w,h);
+    this.imgs.push(img);
+    return this;
+}
+Sprite.prototype.addImage=function(src){
+    var img=new Image();
+    img.src=src;
+    this.imgs.push(img);
     return this;
 }
 Sprite.prototype.setLife=function(life){
@@ -215,15 +237,31 @@ Sprite.prototype.setData=function(data){
 Sprite.prototype.update=function(){
     this.updateExec();
     //console.log(this.data);
-    if(this.img==null){
+    if(this.imgs==null){
         return false;
     }
-    _.c.drawImage(this.img,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
+    this.timer++;
+    _.c.drawImage(this.imgs[this.img_index],this.x-this.w/2,this.y-this.h/2,this.w,this.h);
+
+    if(this.timer==20){
+        this.timer=0;
+        this.img_index++;
+    }
+
+
+
+    if(this.img_index==this.imgs.length){
+        this.img_index=0;
+    }
 }
 Sprite.prototype.updateExec=function(){
 }
 Sprite.prototype.setUpdate=function(x){
     this.updateExec=x;
+    return this;
+}
+Sprite.prototype.setTimerfps=function(fps){
+    this.timerfps=fps;
     return this;
 }
 Sprite.prototype.onDie=function(){
@@ -235,5 +273,12 @@ Sprite.prototype.setDie=function(x){
 }
 Sprite.prototype.setType=function(type){
     this.type=type;
+    return this;
+}
+Sprite.prototype.onOver=function(){
+
+}
+Sprite.prototype.setOver=function(x){
+    this.onOver=x;
     return this;
 }
