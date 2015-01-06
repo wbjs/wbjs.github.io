@@ -94,7 +94,7 @@ _.ready(function(){
             }));
         }
         /* 添加生命值精灵 */
-        if(_.life_timer>=1000){
+        if(_.life_timer>=5000){
             _.life_timer=0;
             /*添加星星到场景*/
             screen.add(_.engine.create_sprite("heart",50,50,48,48,"data:image/png;base64,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").setUpdate(function(){
@@ -141,10 +141,11 @@ _.ready(function(){
         start();
     });
         _("#restart_button").click(function(){
-            _("#game_start").hide();
-            _("#game_over").hide();
+
             init();
             start();
+            _("#game_start").hide();
+            _("#game_over").hide();
         });
 
     }
