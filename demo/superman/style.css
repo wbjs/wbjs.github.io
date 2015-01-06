@@ -1,13 +1,51 @@
-*{
-  margin:0px;
-  padding:0px;
-}
 #debug{
     font-size: 30px;
 }
+#game_box{
+    width: 320px;
+    height: 320px;
+}
 #canvas_box{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right:0px;
+    bottom: 0px;
     background: #000;
     width: 320px;
     height: 320px;
     cursor: pointer;
+}
+#game_start{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right:0px;
+    bottom: 0px;
+    background: rgba(255,0,0,0.5);
+    width: 320px;
+    height: 320px;
+    cursor: pointer;
+}
+#game_over{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right:0px;
+    bottom: 0px;
+    background: rgba(0,0,0,0.5);
+    width: 320px;
+    height: 320px;
+    cursor: pointer;
+}
+button{
+    background: #fff;
+    color: #f00;
+    width: 50%;
+    height: 50%;
+    line-height: normal;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    border-radius: 100%;
 }
