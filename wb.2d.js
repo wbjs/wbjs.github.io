@@ -1,15 +1,16 @@
 /*
-			<|
-	wb.2d.js	 |\
-	v1.01		/|.\
-	2015	       / || \
-	             .'  |'  \
-		  .-'.-==|/_--'
-		  `--'-------'
-	__---__---___--___---___--___
+ <|
+ wb.2d.js	 |\
+ v1.01		/|.\
+ 2015	       / || \
+ .'  |'  \
+ .-'.-==|/_--'
+ `--'-------'
+ __---__---___--___---___--___
  _____---__---___--___---___--___-__
- 
-*/
+
+ */
+
 _.clear_canvas=function(){
     _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
 }
@@ -203,31 +204,39 @@ var Sprite=function(name,x,y,w,h,src){
     this.w=w;
     this.h=h;
     this.imgs=new Array();
+    this.shifts=new Array();//偏移
+    this.img_index=0;//渲染的img
+    this.shift_index=0;//偏移的序列
     var img=new Image();
     if(src==undefined){
-        return false;
-    }
-    this.img_index=0;//渲染的img
-    img.src=src;
-    function a(x,img,w,h){
-        img.onload=function(){
-            //_.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
-            //_.c.drawImage(this,0,0,w,h);
-            //var data=_.c.getImageData(0,0,this.width,this.height).data;
-            //var data=_.c.getImageData(0,0,w,h).data;
-           // _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
-            //console.log(data);
-            //x.data.push(data);
+
+    }else{
+
+        img.src=src;
+        function a(x,img){
+            img.onload=function(){
+                //_.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
+                //_.c.drawImage(this,0,0,w,h);
+                //var data=_.c.getImageData(0,0,this.width,this.height).data;
+                //var data=_.c.getImageData(0,0,w,h).data;
+                // _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
+                //console.log(data);
+                //x.data.push(data);
+                x.imgs.push(img);
+                x.shifts.push({"shift_length":1,"shift_value":img.width});
+           }
         }
+        a(this,img);
     }
-    //a(this,img,w,h);
-    this.imgs.push(img);
     return this;
 }
-Sprite.prototype.addImage=function(src){
+Sprite.prototype.addImage=function(src,shift_length,shift_value){
     var img=new Image();
     img.src=src;
     this.imgs.push(img);
+
+    this.shifts.push({"shift_length":shift_length,"shift_value":shift_value});
+
     return this;
 }
 Sprite.prototype.setLife=function(life){
@@ -245,20 +254,25 @@ Sprite.prototype.update=function(){
     this.updateExec();
     //console.log(this.data);
     if(this.imgs==null){
-        return false;
-    }
-    this.timer++;
-    _.c.drawImage(this.imgs[this.img_index],this.x-this.w/2,this.y-this.h/2,this.w,this.h);
+    }else{
+        this.timer++;
 
-    if(this.timer==20){
-        this.timer=0;
-        this.img_index++;
-    }
+        var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
+        var to_x=from_x+this.shifts[this.img_index].shift_value;
 
+        _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
 
+        if(this.timer==20){
+            this.timer=0;
+            if(this.shift_index<this.shifts.length){
+                this.shift_index++;
+            }else{
+                this.shift_index==0;
+            }
 
-    if(this.img_index==this.imgs.length){
-        this.img_index=0;
+            //var shift_length=this.shifts[this.img_index].shift_length;
+            _.log(this.shifts[this.img_index].shift_length);
+        }
     }
 }
 Sprite.prototype.updateExec=function(){
