@@ -72,7 +72,7 @@ Wb.prototype.out=function(x){
 Wb.prototype.click=function(x){
     for(i=0;i<this.objs.length;i++){
        if(/iphone|nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|wap|android|iPod/i.test(navigator.userAgent.toLowerCase())){ 
-           this.objs[i].ontouchstart=x; 
+           this.objs[i].addEventListener("ontouchstart",x,false);
        }else{
            this.objs[i].onclick=x;
        }
