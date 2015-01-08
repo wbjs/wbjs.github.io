@@ -100,18 +100,20 @@ button{
     top: 0px;
     left: 0px;
     right: 0px;
+
 }
 #player_life{
     width: 100px;
     height: 15px;
     line-height: 15px;
-    font-size: 15px;
+    font-size: 12px;
     position: absolute;
-    top: 10px;
+    top: 9px;
     left: 40px;
     color: #fff;
     font-weight: 900;
     background: #ff0000;
     border-radius: 10px;
     overflow: hidden;
+    padding-left: 10px;
 }
