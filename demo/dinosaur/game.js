@@ -50,7 +50,7 @@ _.ready(function () {
             //gameover
             gameover();
             //
-        });
+        }).setTimerfps(10);
         /*添加玩家精灵到场景*/
         player.toY = 300;
         screen.add(player);
@@ -84,7 +84,7 @@ _.ready(function () {
                 }).setDie(function () {
                     dieCount++;
                     //ok_text.setText("ok:"+dieCount);
-                }));
+                }).setTimerfps(200000));
             }
             _.bg_left-=3;
             //_("#canvas_box").css("backgroundPosition", _.bg_left+"px bottom");
