@@ -6,6 +6,7 @@ _.ready(function () {
     function init() {
         _.init();
         var i = 0;
+        var m=0;
         _.bg_left=0;
         var dieCount = 0;
         /*初始化2d游戏引擎*/
@@ -65,11 +66,9 @@ _.ready(function () {
         _.engine.setGameLoop(function () {
             //game code here
             /* 显示玩家精灵生命值 */
-            _("#player_life").text(parseInt(player.life/10*100));
+            _("#player_life").text(parseInt(player.life/10*100)+"%");
+            _("#m").text(parseInt(m++)+"km");
             _("#player_life").css("width",player.life/10*100+"px");
-            if (player.life == 0) {
-                _("#player_life").text(0);
-            }
             /*添加敌人精灵到场景*/
             if (_.timer >= 100) {
                 _.timer = 0;
