@@ -1,16 +1,18 @@
 /*
- <|
+          <|
  wb.2d.js	 |\
- v1.01		/|.\
- 2015	       / || \
- .'  |'  \
- .-'.-==|/_--'
- `--'-------'
+ v1.01		  /|.\
+ 2015    / || \
+       .'  |'  \
+    .-'.-==|/_--'
+    `--'-------'
  __---__---___--___---___--___
  _____---__---___--___---___--___-__
-
  */
-
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+if(window.requestAnimationFrame==undefined){
+    window.requestAnimationFrame=window.setTimeout;
+}
 _.clear_canvas=function(){
     _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
 }
@@ -28,7 +30,7 @@ _.animate=function() {
         _.lastT=t;
         _.looping();
     }
-    requestAnimationFrame(_.animate );
+    window.requestAnimationFrame(_.animate );
     //console.log(t- _.anitime)
 
 }
@@ -107,7 +109,7 @@ var Render=function(){
                     _.lastT=t;
                     _.timer++;
                     _.life_timer++;
-                    if(player.life==-1){
+                    if(player.life==0){
                         player.onDie();
                         player.onOver();
                         return false;
@@ -122,7 +124,7 @@ var Render=function(){
                             objs[i].onDie();
                             objs.splice(i,1);
                         }
-                        if (Math.abs(player.x - objs[i].x)<player.w/1.5 && Math.abs(player.y - objs[i].y)<player.h/1.5) {
+                        if (Math.abs(player.x - objs[i].x)<player.w/2 && Math.abs(player.y - objs[i].y)<player.h/2) {
                             /* 如果是敌人 */
                             if(objs[i].type=="enemy"){
                                 player.life--;
@@ -144,7 +146,7 @@ var Render=function(){
                     _.gameLoop();
                 }
             }
-            requestAnimationFrame(function(){
+            window.requestAnimationFrame(function(){
                 loop(player,objs,fps);
             });
         }
@@ -223,7 +225,7 @@ var Sprite=function(name,x,y,w,h,src){
                 //console.log(data);
                 //x.data.push(data);
                 x.imgs.push(img);
-                x.shifts.push({"shift_length":1,"shift_value":img.width});
+                x.shifts.push({"shift_length":0,"shift_value":img.width});
            }
         }
         a(this,img);
@@ -235,7 +237,7 @@ Sprite.prototype.addImage=function(src,shift_length,shift_value){
     img.src=src;
     this.imgs.push(img);
 
-    this.shifts.push({"shift_length":shift_length,"shift_value":shift_value});
+    this.shifts.push({"shift_length":shift_length-1,"shift_value":shift_value});
 
     return this;
 }
@@ -257,22 +259,27 @@ Sprite.prototype.update=function(){
     }else{
         this.timer++;
 
-        var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
-        var to_x=from_x+this.shifts[this.img_index].shift_value;
-
-        _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
 
         if(this.timer==20){
-            this.timer=0;
-            if(this.shift_index<this.shifts.length){
+
+            if(this.shift_index<this.shifts[this.img_index].shift_length){
                 this.shift_index++;
             }else{
-                this.shift_index==0;
+                this.shift_index=0;
             }
-
+            this.timer=0;
             //var shift_length=this.shifts[this.img_index].shift_length;
-            _.log(this.shifts[this.img_index].shift_length);
+
         }
+
+        var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
+        var to_x=this.shifts[this.img_index].shift_value;
+       // _.log(this.shift_index);
+        //_.log(this.shifts.length);
+        _.log(this.shift_index);
+        _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
+
+        //_.c.drawImage(this.imgs[this.img_index],0,0,80,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
     }
 }
 Sprite.prototype.updateExec=function(){
