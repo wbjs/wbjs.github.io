@@ -65,7 +65,7 @@ _.ready(function () {
         _.engine.setGameLoop(function () {
             //game code here
             /* 显示玩家精灵生命值 */
-            _("#player_life").text(player.life/10*100);
+            _("#player_life").text(parseInt(player.life/10*100));
             _("#player_life").css("width",player.life/10*100+"px");
             if (player.life == 0) {
                 _("#player_life").text(0);
@@ -98,8 +98,8 @@ _.ready(function () {
              if(this.y>= _.canvas_h){
              this.life=0;
              }}).setType("food").setDie(function(){
-                 if(player.left+1>10){
-                     player.left=9;
+                 if(player.life+1>10){
+                     player.life=9;
                  }
                  player.life++;
              }));
