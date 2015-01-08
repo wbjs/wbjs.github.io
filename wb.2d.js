@@ -9,7 +9,7 @@
  __---__---___--___---___--___
  _____---__---___--___---___--___-__
  */
-window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 if(window.requestAnimationFrame==undefined){
     window.requestAnimationFrame=window.setTimeout;
 }
@@ -241,7 +241,7 @@ Sprite.prototype.update=function(){
     if(this.imgs==null){
     }else{
         this.timer++;
-        if(this.timer==20){
+        if(this.timer==this.timerfps){
 
             if(this.shift_index<this.shifts[this.img_index].shift_length){
                 this.shift_index++;
