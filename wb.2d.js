@@ -1,11 +1,11 @@
 /*
-          <|
- wb.2d.js	 |\
- v1.01		  /|.\
- 2015    / || \
-       .'  |'  \
-    .-'.-==|/_--'
-    `--'-------'
+               <|
+ wb.2d.js       |\
+ v1.01	     /|.\
+ 2015	    / || \
+            .'  |'  \
+         .-'.-==|/_--'
+         `--'-------'
  __---__---___--___---___--___
  _____---__---___--___---___--___-__
  */
@@ -31,10 +31,7 @@ _.animate=function() {
         _.looping();
     }
     window.requestAnimationFrame(_.animate );
-    //console.log(t- _.anitime)
-
 }
-
 _.screen=function(){
 
 }
@@ -42,7 +39,6 @@ _.gameLoop=function(){
 
 }
 /* Engine */
-
 var Engine=function(){
 
 }
@@ -78,13 +74,10 @@ Engine.prototype.setGameLoop=function(x){
 }
 var engine=new Engine();
 _.engine=engine;
-
-
 _.init=function(){
     var engine=new Engine();
     _.engine=engine;
 }
-
 /* Screen */
 var Screen=function(){
     this.objs=new Array();
@@ -96,7 +89,6 @@ Screen.prototype.add=function(obj){
     }
     this.objs.push(obj);
 }
-
 _.timer=0;
 _.life_timer=0;
 /* Render */
@@ -115,9 +107,7 @@ var Render=function(){
                         return false;
                     }
                     _.clear_canvas();
-
                     player.update();
-
                     for(i=0;i<objs.length;i++){
                         objs[i].update();
                         if(objs[i].life==0){
@@ -130,9 +120,7 @@ var Render=function(){
                                 player.life--;
                                 objs[i].onDie();
                                 objs.splice(i,1);
-                            }else if(objs[i].type=="life"){
-                                /* 如果能加生命值 */
-                                player.life++;
+                            }else if(objs[i].type=="food"){
                                 objs[i].onDie();
                                 objs.splice(i,1);
                             }
@@ -140,8 +128,6 @@ var Render=function(){
                             /* 如果是炸弹：清除全部敌人 */
 
                         }
-                        //
-                        //console.log(objs[i])
                     }
                     _.gameLoop();
                 }
@@ -211,9 +197,7 @@ var Sprite=function(name,x,y,w,h,src){
     this.shift_index=0;//偏移的序列
     var img=new Image();
     if(src==undefined){
-
     }else{
-
         img.src=src;
         function a(x,img){
             img.onload=function(){
@@ -254,12 +238,9 @@ Sprite.prototype.setData=function(data){
 }
 Sprite.prototype.update=function(){
     this.updateExec();
-    //console.log(this.data);
     if(this.imgs==null){
     }else{
         this.timer++;
-
-
         if(this.timer==20){
 
             if(this.shift_index<this.shifts[this.img_index].shift_length){
@@ -268,18 +249,11 @@ Sprite.prototype.update=function(){
                 this.shift_index=0;
             }
             this.timer=0;
-            //var shift_length=this.shifts[this.img_index].shift_length;
-
         }
-
         var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
         var to_x=this.shifts[this.img_index].shift_value;
-       // _.log(this.shift_index);
-        //_.log(this.shifts.length);
         _.log(this.shift_index);
         _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
-
-        //_.c.drawImage(this.imgs[this.img_index],0,0,80,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
     }
 }
 Sprite.prototype.updateExec=function(){
