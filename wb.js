@@ -218,6 +218,23 @@ _.ready=function(x){
 _.log=function(a){
     console.log(a);
 }
+_.getJSON=function(url,fun){
+    req = new XMLHttpRequest();
+    req.onreadystatechange = function(){
+        if (req.readyState == 4) { // Complete
+            if (req.status == 200) {  // OK response
+                var json = JSON.parse(req.responseText);
+                fun(json);
+            }
+        }
+    };
+    try {
+        req.open("GET",url,true);
+    }catch (e) {
+        alert(e);
+    }
+    req.send(null);
+}
 //bbw=new bbw();
 function _(s){
     return new Wb(s);
