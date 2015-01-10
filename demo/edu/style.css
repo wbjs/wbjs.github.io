@@ -1,0 +1,63 @@
+#code{
+    position: absolute;
+    top: 80px;
+    bottom: 30px;
+    left: 5%;
+    width: 42%;
+    background: rgba(0,0,0,0.2);
+}
+#show{
+    position: absolute;
+    top: 80px;
+    bottom: 30px;
+    right: 5%;
+    width: 42%;
+    background: rgba(0,0,0,0.2);
+}
+#top_bar{
+    position: absolute;
+    top: 0px;
+    left: 5%;
+    right: 5%;
+    height: 50px;
+    background: rgba(0,0,0,0.2);
+}
+#play{
+    position: absolute;
+    left:5px;
+    top:5px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    border-radius: 100%;
+    background: url(res/play_icon.png);
+    background-size:100% 100%;
+    cursor: pointer;
+}
+#pause{
+    position: absolute;
+    left:5px;
+    top:5px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    border-radius: 100%;
+    background: url(res/pause_icon.png);
+    background-size:100% 100%;
+    cursor: pointer;
+    display: none;
+}
+#stop{
+    position: absolute;
+    left:85px;
+    top:5px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    border-radius: 100%;
+    background: url(res/stop_icon.png);
+    background-size:100% 100%;
+    cursor: pointer;
+    display: none;
+
+}
