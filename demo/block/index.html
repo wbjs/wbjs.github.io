@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body style="margin: 0px;">
+<canvas id="c" width="441" height="231"></canvas>
+<script>
+    var d = document.getElementById("c"), f = d.getContext("2d"), h = ["#59031A", "#5BA68A", "#D9C45B", "#D95829", "#D90404"], i = [], j = size = 21, k, l = Math.floor;
+    function m(a, e) {
+        var c, b;
+        if (a && (b = i.indexOf(a)) >= 0) {
+            if (e == 0)c = i[b % j == 0 ? -1 : b - 1];
+            if (e == 1)c = i[b % j == j - 1 ? -1 : b + 1];
+            if (e == 2)c = i[b - j];
+            if (e == 3)c = i[b + j]
+        }
+        return c
+    }
+    function n(a, e) {
+        if (o(a)) {
+            a.a = e;
+            for (var c = 0; c < 4; c++) {
+                var b = m(a, c);
+                b && b.a != e && b.b == a.b && n(b, e)
+            }
+        }
+    }
+    function o(a) {
+        for (var e = 0; e < 4; e++) {
+            var c = m(a, e);
+            if (c && c.b == a.b)return true
+        }
+    }
+    function p() {
+        for (var a = 0; a < 11 * j; a++)i[a] = {b: h[l(Math.random() * h.length)]};
+        q()
+    }
+    function q(a) {
+        if (a) {
+            var e = l(a.clientX / size) + l(a.clientY / size) * j;
+            if (i[e] != k) {
+                n(k, false);
+                n(i[e], true);
+                k = i[e]
+            }
+            if (a.type == "click") {
+                for (var c in i)if (i[c] && i[c].a)for (var b = c; b >= 0; i[b] = i[b -= j]);
+                for (c = 0; c < j; c++) {
+                    b = 10 * j + c;
+                    for (var g = 0; !i[b + g] && b % j + g++ < j;);
+                    if (g > 0)for (b = b % j; b < j - g; b++)for (a = 0; a < 11; a++) {
+                        e = a * j + b;
+                        i[e] = i[e + g];
+                        i[e + g] = null
+                    }
+                }
+                g = 0;
+                b = true;
+                for (c in i)if (i[c]) {
+                    b = b && !o(i[c]);
+                    g++
+                }
+            }
+        }
+        f.fillStyle = "#000";
+        f.fillRect(0, 0, size * j, size * 11);
+        for (c in i)if (a = i[c]) {
+            f.fillStyle = a.b;
+            f.fillRect(c % j * size + (a.a ? 0 : 2), l(c / j) * size + (a.a ? 0 : 2), size - (a.a ? 0 : 1), size - (a.a ? 0 : 1))
+        }
+        if (b) {
+            alert("left: " + g);
+            p()
+        }
+    }
+    document.body.style.margin = 0;
+    d.onclick = d.onmousemove = q;
+    d.width = size * j;
+    d.height = size * 11;
+    p();
+</script>
+</body>
+</html>
