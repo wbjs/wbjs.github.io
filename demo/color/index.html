@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="1898" height="907"></canvas>
+<script>
+    n = X = Y = 8;
+    a = .994;
+    g = .97;
+    N = [991, 149, 192, 921, 199, 919];
+    d = document;
+    c = d.body.children[0];
+    c.onclick = function (e) {
+        l.push({x: X, y: Y, u: 0, v: 0, r: 25});
+        n++
+    };
+    c.onmousemove = function (e) {
+        S = e.clientX;
+        T = e.clientY;
+        U = S - X;
+        V = T - Y;
+        X = S;
+        Y = T;
+        for (i = 0; i < n;) {
+            with (l[i++]) {
+                S = x - X;
+                T = y - Y;
+                D = S * S + T * T;
+                if (D < r * r) {
+                    u += U / 4;
+                    v += V / 4
+                }
+            }
+        }
+    };
+    d = d.documentElement;
+    w = c.width = d.clientWidth - 22;
+    h = c.height = d.clientHeight - 22;
+    L = c.getContext("2d");
+    l = [];
+    for (i = 0; i++ < n;)l.push({x: w / 2 + i, y: 150, u: i * 2 - 9, v: -i, r: 25});
+    setInterval(function () {
+        L.fillStyle = "#ddd";
+        L.fillRect(0, 0, w + 50, h + 50);
+        for (i = 0; i < n; i++) {
+            with (l[i]) {
+                L.fillStyle = "#" + N[i % 6];
+                L.beginPath();
+                L.arc(x, y, r, 0, 6.2, 0);
+                L.fill();
+                k = w - r;
+                x += u;
+                u *= a;
+                x > k || x < r ? u = -u : 0;
+                x < r ? x = r : (x > k ? x = k : 0);
+                k = h - r;
+                y += v;
+                v *= a;
+                y > k || y < 0 ? v = -v : 0;
+                y > k ? y = k : 0;
+                v += .15;
+                for (j = i + 1; j < n; j++) {
+                    o = l[j];
+                    s = x - o.x;
+                    t = y - o.y;
+                    I = s * s + t * t;
+                    f = Math.sqrt(I);
+                    m = o.r + r;
+                    if (f < m) {
+                        p = m - f;
+                        q = p / 2;
+                        J = q * s / m;
+                        K = q * t / m;
+                        x += J;
+                        y += K;
+                        o.x -= J;
+                        o.y -= K;
+                        z = (s * (u - s) + t * (v - t)) / I + 1;
+                        A = s * z;
+                        B = t * z;
+                        C = A - u;
+                        D = B - v;
+                        z = (-s * (o.u + s) - t * (o.v + t)) / I + 1;
+                        E = -s * z;
+                        F = -t * z;
+                        G = E - o.u;
+                        H = F - o.v;
+                        u = (E - C) * g;
+                        v = (F - D) * g;
+                        o.u = (A - G) * g;
+                        o.v = (B - H) * g
+                    }
+                }
+            }
+        }
+    }, 12)
+</script>
+</body>
+</html>
