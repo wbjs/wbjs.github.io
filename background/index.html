@@ -1,15 +1,104 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #pan{
+            width: 50%;
+            height: 50%;
+            top:25%;
+            left: 25%;
+            position: fixed;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+        }
+        h1{
+            font-size: 70px;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-  <a href="1.html" target="_blank">1</a>
-  <a href="2.html" target="_blank">2</a>
-  <a href="3.html" target="_blank">3</a>
-  <a href="4.html" target="_blank">4</a>
-  <a href="5.html" target="_blank">5</a>
-  <a href="6.html" target="_blank">6</a>
+<canvas id="c" width="1920" height="929" style="left: 0px; top: 0px; position: absolute;">
+</canvas>
+<div id="pan">
+    <h1>background</h1>
+    <p>
+          <a href="1.html" target="_blank">1</a>
+          <a href="2.html" target="_blank">2</a>
+          <a href="3.html" target="_blank">3</a>
+          <a href="4.html" target="_blank">4</a>
+          <a href="5.html" target="_blank">5</a>
+          <a href="6.html" target="_blank">6</a>
+    </p>
+</div>
+<script>
+    M = Math;
+    O = M.sin;
+    P = M.cos;
+    $ = document.body.children[0];
+    with ($.style)width = $.width = W = innerWidth, height = $.height = H = innerHeight, top = i = left = 0, position = "absolute";
+    X = W / 2;
+    Y = H / 2;
+    D = $.getContext("2d");
+    N = W * H / 500;
+    S = [];
+    C = [0, 0, 0, 0, 0, .02, 0, 0, 0];
+    E = .99;
+    Z = 3 / 2;
+    function R(_, r) {
+        return _ + (M.random() * r)
+    }
+    function r(_, i) {
+        S[_] = [R(-X, W), R(-Y, H), i ? R(0, 900) : 900, 0, 0, 0, 0, R(.5, 5)]
+    }
+    for (; i < N; i++)r(i, 1);
+    q = X * Z;
+    function loop() {
+        D.fillRect(i = 0, 0, W, H);
+        for (; i < 4; i++)C[i] = (C[i] + R(-.00001, .00002)) * E;
+        for (; i < 9; i++)C[i] = (C[i] + C[i - 3]) * E;
+        a = O(-C[6]);
+        b = P(-C[6]);
+        c = O(-C[7]);
+        d = P(-C[7]);
+        e = O(-C[8]);
+        f = P(-C[8]);
+        S.map(function (_, i) {
+            v = _[2] -= _[7];
+            if (v < -Z)r(i);
+            t = _[0];
+            u = _[1];
+            v = _[2];
+            g = t * b + v * a;
+            h = v * b - t * a;
+            j = u * d + h * c;
+            h = h * d - u * c;
+            k = g * f + j * e;
+            j = j * f - g * e;
+            g = k;
+            l = X + g / h * q;
+            m = Y - j / h * q;
+            _[5] = _[3];
+            _[6] = _[4];
+            if (h > 1) {
+                z = M.floor(255 - v * .255).toString(16);
+                if (_[8])with (D)strokeStyle = '#' + z + z + z, beginPath(), moveTo(_[5], _[6]), lineTo(l, m), stroke();
+                _[3] = l;
+                _[4] = m;
+                _[8] = 1
+            }
+        })
+    }
+    setInterval(loop, 33)
+</script>
 </body>
 </html>
