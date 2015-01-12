@@ -1,0 +1,77 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="100%" height="100%"></canvas>
+<script>
+    var w;
+    var h;
+    var c;
+    var a;
+    var C;
+    var ld;
+    var S = Math.sqrt;
+    var R = Math.random;
+    function O() {
+        var a = (R() - 0.5) * 6.29;
+        var r = R() * R() * w / 2;
+        this.x = Math.cos(a) * r;
+        this.y = Math.sin(a) * r;
+        this.u = this.v = 0;
+        this.r = R() * w / 75
+    }
+    function update() {
+        w = c.width;
+        h = c.height;
+        w2 = w / 2;
+        h2 = h / 2;
+        date = new Date();
+        nd = date.getTime();
+        t = nd - ld;
+        C.fillStyle = '#000';
+        C.fillRect(0, 0, w, h);
+        C.fillStyle = 'rgba(255,255,255,0.1)';
+        for (var i = 0, l = a.length; i < l; i++) {
+            o = a[i];
+            d2 = (o.x * o.x) + (o.y * o.y);
+            d = S(d2);
+            f = t / d2;
+            if (o.u == 0.0 && o.v == 0.0) {
+                o.u = S(1 / d) * o.y / d;
+                o.v = S(1 / d) * (-o.x) / d;
+            }
+            else {
+                o.u -= f * (o.x / d);
+                o.v -= f * (o.y / d);
+            }
+            o.x += o.u * t;
+            o.y += o.v * t;
+            if (o.x < -w2 || o.y > w2 || o.y < -h2 || o.y > h2 || d < w / 20) a[i] = new O(); else C.fillRect(o.x + w2 - o.r / 2, o.y + h2 - o.r / 2, o.r, o.r);
+        }
+        if (t < 33) for (var i = 0; i < 10; i++) a.push(new O());
+        ld = nd;
+        setTimeout(update, 1);
+    }
+    function init() {
+        c = document.getElementById("c");
+        c.width = document.body.clientWidth;
+        c.height = document.body.clientHeight;
+        C = c.getContext('2d');
+        a = new Array();
+        date = new Date();
+        ld = date.getTime();
+        update();
+    }
+    init()
+</script>
+</body>
+</html>
