@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" style="display:block;" width="1920" height="929"></canvas>
+<script>
+    g = window, u = Math, v = u.sqrt, h = u.random, f = document.getElementById("c"), i = f.getContext("2d"), j = g.innerWidth, k = g.innerHeight, w = [], C = (new Date).getTime();
+    f.width = j;
+    f.height = k;
+    i.fillStyle = "rgb(122,0,25)";
+    for (n = 0; n < 700; n++) {
+        f = -0.075 + 2 * h() * 0.075;
+        g = v(0.005625 - f * f);
+        w[n] = {a: 1 + h() * 10, d: h() * j, e: h() * k, b: f, c: -g + 2 * h() * g}
+    }
+    window.setInterval(function () {
+        x = (new Date).getTime() - C;
+        C += x;
+        i.clearRect(0, 0, j, k);
+        for (n = 0; n < 700; n++) {
+            y = x;
+            a = w[n];
+            a.d += a.b * y;
+            a.e += a.c * y;
+            if (a.d < a.a || a.d > j - a.a) {
+                a.b = -a.b;
+                a.d = a.d < a.a ? a.a : j - a.a
+            }
+            if (a.e < a.a || a.e > k - a.a) {
+                a.c = -a.c;
+                a.e = a.e < a.a ? a.a : k - a.a
+            }
+            for (m = n + 1; m < 700; m++) {
+                b = w[m];
+                D = a.a + b.a;
+                p = b.d - a.d;
+                q = b.e - a.e;
+                E = p * p + q * q;
+                r = v(E);
+                if (r < D) {
+                    c = p / r;
+                    d = q / r;
+                    l = a.b * c + a.c * d;
+                    z = a.c * c - a.b * d;
+                    s = b.b * c + b.c * d;
+                    A = b.c * c - b.b * d;
+                    e = b.a / a.a;
+                    o = (l + e * s) / (1 + e);
+                    t = o - v(o * o - ((1 - e) * l + 2 * e * s) * l / (1 + e));
+                    B = l / e + s - t / e;
+                    a.b = t * c - z * d;
+                    a.c = z * c + t * d;
+                    b.b = B * c - A * d;
+                    b.c = A * c + B * d
+                }
+            }
+            i.beginPath();
+            i.arc(a.d, a.e, a.a, 0, 2 * u.PI, true);
+            i.fill()
+        }
+    }, 33)
+</script>
+</body>
+</html>
