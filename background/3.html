@@ -1,0 +1,106 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+    var a = document.getElementById("c"), b, c, d, e, f = 8, h = 600, i = 300, j = 30, k = j * 0.95, l, m = [], n = Math, o, p, q, r, s, t, u, v, w, x, y, z, A;
+    for (d = 0; d < 256; d++) {
+        b = d % 16;
+        c = ~~(d / 16);
+        o = f - n.abs(f - b - 0.5) + f - n.abs(f - c - 0.5) - 1;
+        m[o] || (m[o] = []);
+        m[o].push({x: b, y: c, c: 1, a: 1})
+    }
+    a.height =document.body.clientWidth;
+    a.width = document.body.clientHeight;
+    a = a.getContext("2d");
+    a.d = a.moveTo;
+    a.b = a.lineTo;
+    a.a = a.setTransform;
+    a.e = a.beginPath;
+    a.f = a.closePath;
+    a.c = a.fill;
+    B();
+    function B() {
+        a.a(1, 0, 0, 1, 0, 0);
+        a.clearRect(0, 0, h, h);
+        for (d = 0; m[d];) {
+            for (e = 0; m[d][e];) {
+                l = m[d][e];
+                b = l.x;
+                c = l.y;
+                p = b - f;
+                q = c - f;
+                r = p + 1;
+                s = q + 1;
+                t = j * r;
+                u = j * q;
+                v = k * r;
+                w = k * q;
+                x = k * s;
+                y = j * s;
+                z = j * p;
+                A = k * p;
+                l.c += (n.random() - l.a * 0.5) * 0.2;
+                l.a -= (l.a - l.c) * 0.01;
+                l.a = l.a < 0.1 ? 0.1 : l.a;
+                a.a(l.a, 0, 0, l.a, i, i);
+                C(l.a, 0.4);
+                a.e();
+                if (b < f) {
+                    a.d(t, u);
+                    a.b(v, w);
+                    a.b(v, x);
+                    a.b(t, y)
+                } else {
+                    a.d(z, u);
+                    a.b(A, w);
+                    a.b(A, x);
+                    a.b(z, y)
+                }
+                a.f();
+                a.c();
+                a.e();
+                if (c < f) {
+                    C(l.a, 0.6);
+                    a.d(t, y);
+                    a.b(v, x);
+                    a.b(A, x);
+                    a.b(z, y)
+                } else {
+                    C(l.a, 0.2);
+                    a.d(t, u);
+                    a.b(v, w);
+                    a.b(A, w);
+                    a.b(z, u)
+                }
+                a.f();
+                a.c();
+                C(l.a, 0.5);
+                a.fillRect(z, u, j, j);
+                e++
+            }
+            d++
+        }
+        setTimeout(B, 1)
+    }
+    function C(D, E) {
+        g = 1 - D * E;
+        g = g < 0.1 ? 0.1 : g > 1 ? 1 : g;
+        g = ~~(g * 255);
+        a.fillStyle = "rgb(0," + g + "," + g + ")"
+    }
+    ;
+</script>
+</body>
+</html>
