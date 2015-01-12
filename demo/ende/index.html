@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+    var key = "k@_nop#rst", ol = "rstuvwxyz1234567890=*+.@$", nv = "INVALID";
+    function ec(a) {
+        var e = parseInt(a, 10) * parseInt(a, 10);
+        e += "";
+        var g = e.length, h = "";
+        for (a = 0; a < g; a++) {
+            h += e.charAt(a);
+            h += Math.floor(Math.random() * 10)
+        }
+        e = h;
+        g = "";
+        for (a = 0; a < e.length; a++)g += key.charAt(parseInt(e.charAt(a), 10));
+        e = g.length;
+        for (a = 0; a < e; a++) {
+            g = ol.charAt(Math.floor(Math.random() * ol.length)) + g;
+            g += ol.charAt(Math.floor(Math.random() * ol.length))
+        }
+        return g
+    }
+    function dc(a) {
+        var e = "", g = a.length / 3;
+        if (a.length % 3 != 0)return nv;
+        for (var h = g; h < a.length - g; h++) {
+            var j = key.indexOf(a.charAt(h));
+            if (j == -1)return nv;
+            e += j
+        }
+        a = "";
+        for (h = 0; h < e.length; h += 2)a += e.charAt(h);
+        e = Math.sqrt(parseInt(a, 10));
+        if (e * 10 % 10 != 0)return nv;
+        return e
+    }
+    var d = document, i = "input", t = "textarea", b = "button", p = "appendChild", c = "createElement", z = "body", m = d[c](t);
+    m.value = "123";
+    d[z][p](m);
+    var r = d[c](i);
+    r.type = b;
+    r.value = "encrypt";
+    r.onclick = f;
+    d[z][p](r);
+    var n = d[c](t);
+    d[z][p](n);
+    var s = d[c](i);
+    s.type = b;
+    s.value = "<";
+    s.onclick = v;
+    d[z][p](s);
+    function f() {
+        n.value = ec(m.value)
+    }
+    function v() {
+        n.value = dc(n.value)
+    }
+    f();
+</script>
+<textarea></textarea><input type="button" value="encrypt"><textarea
+        style="margin: 2px; width: 503px; height: 316px;"></textarea><input type="button" value="<"></body>
+</html>
