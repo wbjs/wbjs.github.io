@@ -1,1 +1,59 @@
-<h1>wbjs.org</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <title>wbjs.org</title>
+</head>
+<body style="margin:0;padding:0;overflow:hidden">
+<canvas id="c" width="1920" height="929"></canvas>
+<script>
+    d = document, c = d.getElementById('c'), x = c.getContext('2d'), o = u = v = 0, m = Math, t = m.random, y = m.floor;
+    d.body.setAttribute('style', 'margin:0;padding:0;overflow:hidden');
+    function i() {
+        u = innerWidth, v = innerHeight, c.width = u;
+        c.height = v;
+        x.fillRect(0, 0, u, v);
+        x.font = '30px sans-serif';
+        l = [];
+        p = [];
+        s = [];
+        e = 30;
+        w = u / e;
+        h = v / e;
+        for (i = 0; i < w; i++) {
+            for (j = 0; j < h; j++)l.push(String.fromCharCode(y(t() * 1900)));
+            s.push(t() * v / 150 + v / 400);
+            p.push(t() * v)
+        }
+    }
+    window.onresize = i;
+    i();
+    setInterval(function () {
+        r = t();
+        if (o)x.drawImage(c, -1 * r + .5, -2 * r, u + 1 * r - .5, v + 6 * r);
+        x.fillStyle = 'rgba(0,0,0,0.07)';
+        x.fillRect(0, 0, u, v);
+        for (i = 0; i < w; i += 1 + !o * (r > .5)) {
+            x.fillStyle = '#0F0';
+            for (j = 1; j < 10; j += 1 + !o * (r > .5)) {
+                x.fillText(l[m.max(0, y(i * h + p[i] / e - j))], i * e, y(p[i] / e) * e - j * e)
+            }
+            x.fillStyle = '#EFE';
+            x.fillText(l[y(i * h + p[i] / e)], i * e, p[i]);
+            p[i] += p[i] > v ? -v : s[i]
+        }
+    }, 100);
+    d.onclick = function () {
+        o = !o
+    }
+</script>
+</body>
+</html>
