@@ -235,7 +235,18 @@ _.getJSON=function(url,fun){
     }
     req.send(null);
 }
-//bbw=new bbw();
+_.get=function (name){
+     var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
+     if(result == null || result.length < 1){
+         return "";
+     }
+     return result[1];
+     /*
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+     */
+}
 function _(s){
     return new Wb(s);
 }
