@@ -1,0 +1,85 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="570" height="430"></canvas>
+<script>
+    M = Math, s = [], c = [], a = [], x = y = r = 95, m = n = i = 0;
+    while (i < 361) {
+        s[i] = M.sin(j = i * M.PI / 180);
+        c[i++] = M.cos(j)
+    }
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 18; j++) {
+            a.push([{
+                x: (E = r * s[C = i * 15]) * (H = c[D = j * 20]),
+                y: E * (G = s[D]),
+                z: F = r * c[C],
+                c: (i + j) % 2 ? '#C00' : '#CCC'
+            }, {x: (I = r * s[A = C + 15]) * H, y: I * G, z: J = r * c[A]}, {
+                x: I * (L = c[B = D + 20]),
+                y: I * (K = s[B]),
+                z: J
+            }, {x: E * L, y: E * K, z: F}])
+        }
+    }
+    i = document.getElementById('c');
+    v = i.getContext('2d');
+    i.width = 570;
+    i.height = 430;
+    function z() {
+        v.fillStyle = '#148';
+        v.fillRect(0, 0, 570, 430);
+        v.fillStyle = '#39C';
+        for (i = 0; i < 12; i++) {
+            for (j = i % 2; j < 16; j += 2) {
+                v.fillRect(j * 35 + 5, i * 35 + 5, 35, 35)
+            }
+        }
+        ;
+        N = s[P = x % 360];
+        O = c[P];
+        v.fillStyle = 'rgba(0,0,0,.3)';
+        v.arc(x + 30, y + 9, r, 3, 9, 0);
+        v.fill();
+        b = [];
+        for (i in a) {
+            k = [];
+            for (j in a[i]) {
+                f = a[i][j];
+                X = f.x * O - f.y * N;
+                Y = f.x * N + f.y * O;
+                Z = f.z * c[A = 170] - X * s[A];
+                k.push({x: f.z * s[A] + X * c[A] + x, y: Y * O - Z * N + y, z: Y * N + Z * O, c: f.c})
+            }
+            b.push(k)
+        }
+        b.sort(function (a, b) {
+            return (a[0].z - b[0].z)
+        });
+        for (i in b) {
+            f = b[i];
+            v.fillStyle = f[0].c;
+            v.beginPath();
+            for (j in f)v.lineTo(f[j].x, f[j].y);
+            v.fill()
+        }
+        if ((x += m) > 469)m = -1;
+        if (x - r < 6)m = 1;
+        if ((y += n) > 329)n = -1;
+        if (y - r < 6)n = 1;
+        setTimeout(z, 1)
+    }
+    z()
+</script>
+</body>
+</html>
