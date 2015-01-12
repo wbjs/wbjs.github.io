@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="1920" height="929" style="position: absolute; left: 0px; top: 0px;"></canvas>
+<script>
+    d = document.getElementById("c");
+    d.style.cssText = "position:absolute;left:0;top:0";
+    w = d.width = innerWidth;
+    h = d.height = innerHeight;
+    M = Math;
+    A = M.abs;
+    c = d.getContext("2d");
+    c.strokeStyle = "#f0f";
+    G = [];
+    J = [];
+    function r(n) {
+        return M.floor(M.random() * n)
+    }
+    function n(a, b, c) {
+        return a < b ? a + c : a - c
+    }
+    function p(x, y, v) {
+        return {
+            x: x, y: y, v: v, to: function (t) {
+                var s = this, x = s.x, y = s.y, v = s.v, q = t.x, z = t.y, a = A(x - q), b = A(y - z), k = b / a, vk = a >= b ? v * k : v / k;
+                if (a <= v && b <= v)return 1;
+                if (a >= b) {
+                    s.x = n(x, q, v);
+                    s.y = n(y, z, vk)
+                } else {
+                    s.x = n(x, q, vk);
+                    s.y = n(y, z, v)
+                }
+                return 0
+            }, rt: function (t) {
+                var s = this, a = t.x - s.x, b = t.y - s.y, o = M.PI / 0.3, w = M.cos(o), z = M.sin(o);
+                return s.to(p(a * w - b * z + t.x, a * z + b * w + t.y))
+            }
+        }
+    }
+    for (i = 0; i < 800; i++) {
+        var x = r(w), y = r(h);
+        G.push(p(x, y, 2 + r(10)));
+        J.push(p(x, y, G[i].v))
+    }
+    u = p(f = w / 2, o = h / 2, 4);
+    q = p(f, o);
+    (function L() {
+        c.fillRect(0, 0, w, h);
+        c.beginPath();
+        if (u.rt(q)) {
+            q.x = r(w);
+            q.y = r(h)
+        }
+        for (i = 0; ++i < 800;) {
+            var a = G[i], b = J[i], x = a.x - b.x, y = a.y - b.y;
+            if (M.sqrt(x * x + y * y) >= 10)b.to(a);
+            if (a.rt(u)) {
+                b.x = a.x = r(w);
+                b.y = a.y = r(h)
+            }
+            c.moveTo(a.x, a.y);
+            c.lineTo(b.x, b.y)
+        }
+        c.closePath();
+        c.stroke();
+        setTimeout(L, 33)
+    })()
+</script>
+</body>
+</html>
