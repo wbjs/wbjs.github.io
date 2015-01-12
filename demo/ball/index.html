@@ -1,0 +1,58 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="c" width="300" height="190"></canvas>
+<script>
+    var a = document, b = a.body.children[0], d = b.getContext("2d"), e, f, g = localStorage, h = g.getItem("s"), j = 0, k = 0, l = b.width = 300, m = b.height = 190, z = "#000", n = [[150, 60, 3, 3, 2, 5], [130, 180, 40, 10, 0, 0]], o = n[1], p = n[0];
+    for (c = 0; c < 5; c++)for (j = 0; j < l; j += 30)n.push([j, c * 10 + 10, 30, 10, 0, 0, "rgb(255," + c * 50 + ",0)"]);
+    a.onkeydown = a.onkeyup = function (i) {
+        kc = i.keyCode;
+        o[4] = i.type == "keydown" ? kc == 39 ? 5 : kc == 37 ? -5 : 0 : 0
+    };
+    var q = setInterval(function () {
+        try {
+            d.clearRect(0, 0, l, m);
+            d.strokeRect(0, 10, l, m - 10);
+            var i = n.length;
+            for (j = 0; j < i; j++) {
+                e = n[j];
+                tx = e[0] + e[4];
+                e.splice(0, 2, e == o && (tx < 0 || tx + e[2] > l) ? e[0] : tx, e[1] + e[5]);
+                d.fillStyle = e[6] || z;
+                d.fillRect(e[0], e[1], e[2], e[3]);
+                d.strokeRect(e[0], e[1], e[2], e[3]);
+                if (j && p[0] > e[0] && p[0] + p[2] < e[0] + e[2] && p[1] > e[1] && p[1] + p[3] < e[1] + e[3]) {
+                    if (e == o)p[4] = (p[0] - (o[0] + o[2] / 2)) / 2.5; else {
+                        k += 60 - e[1];
+                        n.splice(j--, 1)
+                    }
+                    p[5] *= -1
+                }
+            }
+            f = p[1] > m ? "Lose" : i == 2 ? "Win" : "";
+            d.fillStyle = z;
+            d.fillText(f ? f : "Score:" + k, 2, 7);
+            h = Math.max(k, h);
+            d.fillText("Top:" + h, 200, 7);
+            if (p[1] < 13)p[5] *= -1;
+            if (p[0] + p[2] > l || p[0] < 0)p[4] *= -1;
+            if (f) {
+                clearTimeout(q);
+                g.setItem("s", h)
+            }
+        } catch (r) {
+        }
+    }, 50);
+</script>
+</body>
+</html>
