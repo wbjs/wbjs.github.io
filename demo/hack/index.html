@@ -1,0 +1,56 @@
+<html>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body style="overflow: hidden; background: rgb(0, 0, 0);">
+<canvas id="c" width="960" height="464" style="width: 99%; height: 99%; position: absolute;"></canvas>
+<script>
+    with (Math)r = random, F = floor, P = pow, S = sqrt, M = max;
+    (X = "rgba(0,204,99,", w = window, f = 1, z = function () {
+        var s = document, t = s.body, h = t.children[0], i = h.getContext("2d"), j, m, k, A = setTimeout, a, b, c = 2, u = 2, n = P(88, 2), v = [], l = [], o = [], d = [], p, e, q, x = function () {
+            i.clearRect(0, 0, p, e);
+            for (a = 0; a < d.length; a++) {
+                q = (new Date).getTime();
+                l[a] += (g = q - o[a]) / 1E3 * v[a];
+                if (f < 2 && g > 250)return f = 2, z();
+                i.fillStyle = X + M(r(), .7) + ")";
+                j = a * 14;
+                for (b = 0; b < d[a].length; b++) {
+                    m = F(14 + (l[a] + b * 14) % e);
+                    k = P(u - m, 2);
+                    i.fillText(d[a][b], P(c - j, 2) + k > n ? j : (j < c ? c - S(k + n) + 176 : c + S(k + n) - 176) + F(r() * 25), m)
+                }
+                o[a] = q
+            }
+            l[a] %= e;
+            A(x, 50)
+        };
+        h.width = p = F(innerWidth / f);
+        h.height = e = F(innerHeight / f);
+        with (h.style)height = width = "99%", position = "absolute";
+        with (t.style)background = "#000", overflow = "hidden";
+        with (i)font = "14px Courier", shadowOffsetX = 1, shadowOffsetY = -1, shadowColor = X + ".7)";
+        for (a = 0; a < p / 14; a++) {
+            d[a] = [];
+            v[a] = M(20, F(r() * 500));
+            l[a] = 14;
+            o[a] = (new Date).getTime();
+            for (b = 0; b < e / 14; b++)d[a][b] = F(r() * 500) % 5 && String.fromCharCode(M(F(r() * 700), 48)) || " "
+        }
+        s.onmousemove = function (y) {
+            c = y.clientX / f - 30;
+            u = y.clientY / f
+        };
+        x()
+    })()
+</script>
+</body>
+</html>
