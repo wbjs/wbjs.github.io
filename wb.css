@@ -5,4 +5,11 @@
 body{
   text-align:justify;
   text-justify:inter-ideograph;
+  font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+  -webkit-user-select: none;   /* 禁止选中文本（如无文本选中需求，此为必选项） */
+  user-select: none;
 }
+a,img {
+    -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+
