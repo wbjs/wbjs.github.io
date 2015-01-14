@@ -101,11 +101,17 @@ var Render=function(){
                     _.lastT=t;
                     _.timer++;
                     _.life_timer++;
-                    if(player.life==0){
-                        player.onDie();
-                        player.onOver();
-                        return false;
-                    }
+                    if(player==undefined){
+                        _.clear_canvas();
+                        for(i=0;i<objs.length;i++){
+                            objs[i].update();
+                        }
+                    }else{
+                        if(player.life==0){
+                            player.onDie();
+                            player.onOver();
+                            return false;
+                        }
                     _.clear_canvas();
                     player.update();
                     for(i=0;i<objs.length;i++){
@@ -129,6 +135,8 @@ var Render=function(){
 
                         }
                     }
+                    }
+
                     _.gameLoop();
                 }
             }
