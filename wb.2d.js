@@ -166,18 +166,22 @@ var Text=function(id,x,y){
 }
 Text.prototype.setSize=function(size){
     this.size=size;
+    return this;
 }
 Text.prototype.update=function(){
     this.updateExec();
     _.c.font=this.size+"px Georgia";
     _.c.fillStyle=this.color;
     _.c.fillText(this.getText(),this.x,this.y);
+    return this;
 }
 Text.prototype.setColor=function(color){
     this.color=color;
+    return this;
 }
 Text.prototype.setText=function(text){
     this.text=text;
+    return this;
 }
 Text.prototype.getText=function(){
     return this.text;
@@ -187,6 +191,7 @@ Text.prototype.updateExec=function(){
 }
 Text.prototype.setUpdate=function(x){
     this.updateExec=x;
+    return this;
 }
 /* Sprite */
 var Sprite=function(name,x,y,w,h,src){
