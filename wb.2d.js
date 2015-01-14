@@ -161,6 +161,8 @@ var Text=function(id,x,y){
     this.y=y;
     this.live=1;
     this.color="#fff";
+
+    this.text=id;
 }
 Text.prototype.setSize=function(size){
     this.size=size;
