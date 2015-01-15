@@ -82,12 +82,14 @@ _.init=function(){
 var Screen=function(){
     this.objs=new Array();
 }
-Screen.prototype.add=function(obj){
-    if(obj.type=="player"){
-        this.player=obj;
-        return false;
+Screen.prototype={
+    add:function(obj){
+        if(obj.type=="player"){
+            this.player=obj;
+            return false;
+        }
+        this.objs.push(obj);
     }
-    this.objs.push(obj);
 }
 _.timer=0;
 _.life_timer=0;
@@ -147,12 +149,13 @@ var Render=function(){
         loop(this.screen.player,this.screen.objs,this.fps);
     }
 }
-Render.prototype.render=function(screen,fps){
-    this.screen=screen;
-    var this_time=new Date().getTime();
-    this.fps=fps;
-    this.animate();
-
+Render.prototype={
+    render:function(screen,fps){
+        this.screen=screen;
+        var this_time=new Date().getTime();
+        this.fps=fps;
+        this.animate();
+    }
 }
 /* Text */
 var Text=function(id,x,y){
@@ -161,37 +164,38 @@ var Text=function(id,x,y){
     this.y=y;
     this.live=1;
     this.color="#fff";
-
     this.text=id;
 }
-Text.prototype.setSize=function(size){
-    this.size=size;
-    return this;
-}
-Text.prototype.update=function(){
-    this.updateExec();
-    _.c.font=this.size+"px Georgia";
-    _.c.fillStyle=this.color;
-    _.c.fillText(this.getText(),this.x,this.y);
-    return this;
-}
-Text.prototype.setColor=function(color){
-    this.color=color;
-    return this;
-}
-Text.prototype.setText=function(text){
-    this.text=text;
-    return this;
-}
-Text.prototype.getText=function(){
-    return this.text;
-}
-Text.prototype.updateExec=function(){
+Text.prototype={
+    setSize:function(size){
+        this.size=size;
+        return this;
+    },
+    update:function(){
+        this.updateExec();
+        _.c.font=this.size+"px Georgia";
+        _.c.fillStyle=this.color;
+        _.c.fillText(this.getText(),this.x,this.y);
+        return this;
+    },
+    setColor:function(color){
+        this.color=color;
+        return this;
+    },
+    setText:function(text){
+        this.text=text;
+        return this;
+    },
+    getText:function(){
+        return this.text;
+    },
+    updateExec:function(){
 
-}
-Text.prototype.setUpdate=function(x){
-    this.updateExec=x;
-    return this;
+    },
+    setUpdate:function(x){
+        this.updateExec=x;
+        return this;
+    }
 }
 /* Sprite */
 var Sprite=function(name,x,y,w,h,src){
@@ -231,71 +235,70 @@ var Sprite=function(name,x,y,w,h,src){
     }
     return this;
 }
-Sprite.prototype.addImage=function(src,shift_length,shift_value){
-    var img=new Image();
-    img.src=src;
-    this.imgs.push(img);
+Sprite.prototype={
+    addImage:function(src,shift_length,shift_value){
+        var img=new Image();
+        img.src=src;
+        this.imgs.push(img);
 
-    this.shifts.push({"shift_length":shift_length-1,"shift_value":shift_value});
+        this.shifts.push({"shift_length":shift_length-1,"shift_value":shift_value});
 
-    return this;
-}
-Sprite.prototype.setLife=function(life){
-    this.life=life;
-    return this;
-}
-Sprite.prototype.initData=function(){
+        return this;
+    },
+    setLife:function(life){
+        this.life=life;
+        return this;
+    },
+    initData:function(){
 
-}
-Sprite.prototype.setData=function(data){
-    this.data=data;
-    return this;
-}
-Sprite.prototype.update=function(){
-    this.updateExec();
-    if(this.imgs==null){
-    }else{
-        this.timer++;
-        if(this.timer==this.timerfps){
+    },
+    setData:function(data){
+        this.data=data;
+        return this;
+    },
+    update:function(){
+        this.updateExec();
+        if(this.imgs==null){
+        }else{
+            this.timer++;
+            if(this.timer==this.timerfps){
 
-            if(this.shift_index<this.shifts[this.img_index].shift_length){
-                this.shift_index++;
-            }else{
-                this.shift_index=0;
+                if(this.shift_index<this.shifts[this.img_index].shift_length){
+                    this.shift_index++;
+                }else{
+                    this.shift_index=0;
+                }
+                this.timer=0;
             }
-            this.timer=0;
+            var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
+            var to_x=this.shifts[this.img_index].shift_value;
+            _.log(this.shift_index);
+            _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
         }
-        var from_x=this.shift_index*this.shifts[this.img_index].shift_value;
-        var to_x=this.shifts[this.img_index].shift_value;
-        _.log(this.shift_index);
-        _.c.drawImage(this.imgs[this.img_index],from_x,0,to_x,this.imgs[this.img_index].height,this.x-this.w/2,this.y-this.h/2,this.w,this.h);
+    },
+    updateExec:function(){
+    },
+    setUpdate:function(x){
+        this.updateExec=x;
+        return this;
+    },
+    setTimerfps:function(fps){
+        this.timerfps=fps;
+        return this;
+    },
+    onDie:function(){
+
+    },
+    setDie:function(x){
+        this.onDie=x;
+        return this;
+    },
+    setType:function(type){
+        this.type=type;
+        return this;
+    },
+    setOver:function(x){
+        this.onOver=x;
+        return this;
     }
-}
-Sprite.prototype.updateExec=function(){
-}
-Sprite.prototype.setUpdate=function(x){
-    this.updateExec=x;
-    return this;
-}
-Sprite.prototype.setTimerfps=function(fps){
-    this.timerfps=fps;
-    return this;
-}
-Sprite.prototype.onDie=function(){
-
-}
-Sprite.prototype.setDie=function(x){
-    this.onDie=x;
-    return this;
-}
-Sprite.prototype.setType=function(type){
-    this.type=type;
-    return this;
-}
-Sprite.prototype.onOver=function(){
-
-}
-Sprite.prototype.setOver=function(x){
-    this.onOver=x;
-    return this;
 }
