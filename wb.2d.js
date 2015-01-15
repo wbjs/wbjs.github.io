@@ -9,10 +9,24 @@
  __---__---___--___---___--___
  _____---__---___--___---___--___-__
  */
+ /*
  window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 if(window.requestAnimationFrame==undefined){
     window.requestAnimationFrame=window.setTimeout;
 }
+*/
+//
+requestAnimFrame = (function(){
+    return window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function( callback, element ) {
+        window.setTimeout( callback, 16 );
+      };
+})();
+//
 _.clear_canvas=function(){
     _.c.clearRect(0, 0, _.canvas_w, _.canvas_h);
 }
@@ -30,7 +44,7 @@ _.animate=function() {
         _.lastT=t;
         _.looping();
     }
-    window.requestAnimationFrame(_.animate );
+    requestAnimationFrame(_.animate );
 }
 _.screen=function(){
 
