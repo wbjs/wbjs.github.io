@@ -1,1 +1,46 @@
 <div id="b"></div>
+<script src=/wb2d.js></script>
+<script>
+   window.onload=function(){
+     var i=0;
+
+var ps=new Array();
+
+
+wb2d.init("box",320,320);
+
+
+
+wb2d.addFpsRun(10,function(){
+	ps.push({
+	  	x:Math.floor(Math.random()*c_w),
+	   	y:0,
+	   	r:Math.floor(Math.random()*7+1),
+	});
+});
+wb2d.addFpsRun(100,function(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	wb2d.rgb(r,g,b);
+});
+
+var a=0;
+wb2d.setFps(10);
+wb2d.loopOn();
+wb2d.looping(function(){
+	a++;
+	c.font="50px Georgia";
+    c.fillText(a,10,50);
+    for(p in ps){
+    	var p=ps[p];
+    	p.x++;
+	    p.y++;
+	    //
+	    wb2d.arc(p.x,p.y,p.r);
+	    //
+    }
+});
+wb2d.ani();
+   }
+</script>
