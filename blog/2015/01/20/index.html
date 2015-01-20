@@ -1,0 +1,39 @@
+<div id="b"></div>
+<script src=/wb2d.js></script>
+<script>
+   window.onload=function(){
+     var ps=new Array();
+wb2d.init("b",320,320).setFps(10).addFpsRun(10,function(){
+	ps.push({
+	  	x:Math.floor(Math.random()*c_w),
+	   	y:0,
+	   	r:Math.floor(Math.random()*7+1),
+	});
+}).addFpsRun(100,function(){
+	var r=Math.floor(Math.random()*255);
+	var g=Math.floor(Math.random()*255);
+	var b=Math.floor(Math.random()*255);
+	wb2d.rgb(r,g,b);
+}).addTimeLine(10,100,function(){
+	c.fillText('time',100,100);
+}).addTimeLine(100,200,function(){
+	c.fillText('demo',100,100);
+}).addTimeLine(200,300,function(){
+	c.fillText('codetyphon',100,100);
+}).addTimeLine(300,400,function(){
+	c.fillText('from',100,100);
+}).addTimeLine(400,500,function(){
+	c.fillText('wbjs',100,100);
+}).looping(function(){
+	c.font="30px Georgia";
+    c.fillText(wb2d.timeLine,10,50);
+    for(p in ps){
+    	var p=ps[p];
+    	p.x++;
+	    p.y++;
+	    //
+	    wb2d.arc(p.x,p.y,p.r);
+	    //
+    }
+}).loopOn().ani();}
+</script>
