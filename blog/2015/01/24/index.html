@@ -1,0 +1,120 @@
+<html><head>
+    <title>北京下雪了</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico">
+    <link rel="stylesheet" href="/blog.css">
+  </head>
+  <body>
+    
+
+    <h1><a href="/">wbjs.org</a></h1>
+
+    <p class="nav">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/demo">demos</a>
+    </p> 
+    <div class="item">
+    
+      <h2>北京下雪了，但是我住的区域却没下。</h2>
+      <p>所以只好自己写一个下雪的模拟场景了。</p>
+  <p><canvas id="snow" width="300" height="300" style="box-shadow: 2px 2px 5px gray;"></canvas>
+	<script>
+		window.onload = function(){
+			var canvas=document.getElementById("snow");
+			var ctx = canvas.getContext("2d");
+			var W = canvas.width;
+			var H = canvas.height;
+			var angle = 0;
+			var mp = 10;
+			var snowLine = [];
+			for (var i = 0; i < W; i++) {
+				snowLine[i] = 0;
+			};
+			var particles =[];
+			for (var i = 0; i < mp; i++) {
+				particles[i] = {
+					x:Math.floor(Math.random()*W),
+					y:Math.floor(Math.random()*H),
+					r:Math.floor(Math.random()*7+1),
+				}
+			}
+			function draw(){
+				angle += 0.0039;
+				ctx.fillStyle = "lightblue";
+				ctx.fillRect(0,0,W,H);
+				ctx.fillStyle = "white";
+				ctx.strokeStyle = 'white';
+				for (var i = 0; i < particles.length; i++) {
+					var p = particles[i];
+					p.x += Math.floor(Math.sin(angle)*5.0);
+					if (p.x > W) {
+						p.x-=W;
+					}
+					if (p.x < 0) {
+						p.x += W;
+					}
+					var actualX =p.x;
+          ctx.beginPath();
+          ctx.moveTo(actualX, p.y);
+          ctx.arc(actualX, p.y, p.r, 0,2 * Math.PI, false);
+          ctx.fill();
+					p.y += 0.6*p.r;
+					if((p.y+snowLine[actualX])>(H+1)){
+						p.y = 0;
+						var intX = actualX;
+						var d = p.r;
+						snowLine[intX]+=d;
+						var left = intX-1;
+						var right = intX+1;
+						for (var j = d; j >= 0; j--) {
+							snowLine[left] += j;
+						    snowLine[right] += j;
+						    left--;
+						    right++;
+						}
+					}
+				};
+				for (var i = 0; i < W; i++) {
+					if (snowLine[i] > 0) {
+						ctx.fillRect(i, H-snowLine[i], 1, snowLine[i]);
+					}
+				}
+				for (var i = 0; i < W; i++) {
+					var above = i+4;
+						if (above>=W){
+							above-=W;
+						}
+					if (snowLine[i] > snowLine[above]+1) {
+						snowLine[i]-=1;
+						snowLine[above]+=1;
+					}
+				}
+				for (var i = 0; i < W; i++) {
+						var below = i-4;
+						if (below<0){
+							below+=W;
+						}
+					if (snowLine[i] > snowLine[below]+1) {
+						snowLine[i]-=1;
+						snowLine[below]+=1;
+					}
+				}
+			}
+			setInterval(draw,20);
+		}
+	</script></p>
+  
+
+
+
+
+      <p class="pub">2015-01-21</p>
+      </div>
+
+    <div class="footer">
+      <p class="footercopyright">© 2000-2015 <a href="/">www.wbjs.org</a>
+      </p> 
+   </div> 
+</body></html>
