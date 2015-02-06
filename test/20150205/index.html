@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <meta property="author" content="codetyphon" />
+    <title>天下汇V生活</title>
+    <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="//unslider.com/unslider.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #topbar{
+            background: #d61408;
+            position: fixed;
+            top: 0px;
+            height:40px;
+            left: 0px;
+            right: 0px;
+        }
+        #reg{
+             position: absolute;
+             top: 5px;
+             left: 10px;
+             width: 60px;
+        }
+        #title{
+            position: absolute;
+            top: 10px;
+            left: 90px;
+            right: 90px;
+            height: 20px;
+        }
+        #title img{
+            width: 100%;
+            height: 100%;
+        }
+        #login{
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            width: 30px;
+        }
+        #banner{
+            position: fixed;
+            top: 40px;
+            left: 0px;
+            right: 0px;
+            bottom: 50%;
+            background: #ffcc00;
+            overflow: hidden;
+        }
+        .banner { position: absolute; overflow: auto;height: 100%; }
+        .banner li { list-style: none; }
+        .banner ul li { float: left; position: relative;}
+        .banner ul li img{width: 100%; height: 200px;}
+        #menus{
+            position:fixed;
+            top: 50%;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            background: #02424e;
+            overflow: hidden;
+        }
+        #menus img{
+            position: absolute;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        #menu1{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 50%;
+            height: 50%;
+        }
+        #menu2{
+              position: absolute;
+              top: 0px;
+              left: 50%;
+              width: 50%;
+              height: 50%;
+        }
+        #menu3{
+            position: absolute;
+            top: 50%;
+            left: 0px;
+            width: 50%;
+            height: 50%;
+        }
+        #menu4{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="topbar">
+        <div id="reg"><a href="#"><img src="res/reg.png"></a></div>
+        <div id="title"><a href="#"><img src="res/title.png"></a></div>
+        <div id="login"><a href="#"><img src="res/user.png"></a></div>
+    </div>
+    <div id="banner">
+        <div class="banner">
+            <ul>
+                <li><img src="res/banners/1.png"></li>
+                <li><img src="res/banners/2.png"></li>
+                <li><img src="res/banners/3.png"></li>
+            </ul>
+        </div>
+    </div>
+    <div id="menus">
+        <div id="menu1"><a href="#"><img src="res/1.png"></a></div>
+        <div id="menu2"><a href="#"><img src="res/2.png"></a></div>
+        <div id="menu3"><a href="#"><img src="res/3.png"></a></div>
+        <div id="menu4"><a href="#"><img src="res/4.png"></a></div>
+    </div>
+    <script>
+        $(function() {
+            $('.banner').unslider();
+        });
+    </script>
+</body>
+</html>
