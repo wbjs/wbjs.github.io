@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>宇宙漩涡</title>
     <style>
         html, body {
             margin: 0;
@@ -15,6 +16,7 @@
 <body>
 <canvas id="c" width="1920" height="929" style="position: absolute; left: 0px; top: 0px;"></canvas>
 <script>
+    maxlen=300;
     d = document.getElementById("c");
     d.style.cssText = "position:absolute;left:0;top:0;background: #000;";
     w = d.width = innerWidth;
@@ -50,7 +52,7 @@
             }
         }
     }
-    for (i = 0; i < 800; i++) {
+    for (i = 0; i < maxlen; i++) {
         var x = r(w), y = r(h);
         G.push(p(x, y, 2 + r(10)));
         J.push(p(x, y, G[i].v))
@@ -64,7 +66,7 @@
             q.x = r(w);
             q.y = r(h)
         }
-        for (i = 0; ++i < 800;) {
+        for (i = 0; ++i < maxlen;) {
             var a = G[i], b = J[i], x = a.x - b.x, y = a.y - b.y;
             if (M.sqrt(x * x + y * y) >= 10)b.to(a);
             if (a.rt(u)) {
